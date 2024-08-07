@@ -46,4 +46,47 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     rotate(); // Start the rotation
+
+   
+    
+    const slide1Elements = document.querySelectorAll(".slide1");
+const slide2Elements = document.querySelectorAll(".slide2");
+const scrollSpeed = 1; // Adjust the scroll speed
+const scrollInterval = 15; // Adjust the interval time in milliseconds
+
+function autoScroll(slideElements, scrollingspeed, direction) {
+    slideElements.forEach(slide => {
+        if (direction === 'right') {
+            slide.scrollLeft += scrollingspeed;
+            if (slide.scrollLeft + slide.clientWidth >= slide.scrollWidth) {
+                slide.scrollLeft = 0; // Reset scroll position to the beginning
+            }
+        } else if (direction === 'left') {
+            slide.scrollLeft -= scrollingspeed;
+            if (slide.scrollLeft <= 0) {
+                slide.scrollLeft = slide.scrollWidth - slide.clientWidth; // Reset scroll position to the end
+            }
+        }
+    });
+}
+
+setInterval(() => autoScroll(slide1Elements, scrollSpeed, 'right'), scrollInterval);
+setInterval(() => autoScroll(slide2Elements, scrollSpeed, 'left'), scrollInterval);
+
 });
+
+const observer = new IntersectionObserver(entries => {
+    // Loop over the entries
+    entries.forEach(entry => {
+      // If the element is visible
+      if (entry.isIntersecting) {
+        // Add the animation class
+        entry.target.classList.add('image-animation');
+      }
+    });
+  });
+  
+  const viewbox = document.querySelectorAll('.animate');
+  viewbox.forEach(image => {
+    observer.observe(image);
+  });
